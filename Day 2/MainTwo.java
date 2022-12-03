@@ -1,77 +1,10 @@
 // importing input output classes
 import java.io.*;
 // import the Collections class to use for searching for maximum value in a dictionary
-import java.util.*;
+
 // import the HashMap and Map classes for dictionary use
 
-public class Main {
-
-    /*
-    Helper method to find the elf with the highest calories
-     */
-    public static int findMaxCals(Map<Integer, Integer> inventory) {
-        return Collections.max(inventory.values());
-    }
-
-    /*
-    Find and return the top number of given elves' snack calories sum.
-     */
-    public static int findTopCals(Map<Integer, Integer> inventory, int top) {
-        Map<Integer, Integer> sortedInventory = new LinkedHashMap<>();
-
-        // sort the dictionary based on the values in descending order
-        inventory.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).forEachOrdered(x -> sortedInventory.put(x.getKey(), x.getValue()));
-
-        int topCalories = 0;
-        int elfCount = 0;
-
-        // create an iterator to allow you to iterate over the sorted inventory
-        Iterator<Map.Entry<Integer, Integer>> iterator = sortedInventory.entrySet().iterator();
-
-        // find the top number of elves' snack calories
-        while (elfCount < top){
-
-            // find the current max calories in inventory and add to the topCalories sum
-            int currentMax = iterator.next().getValue();
-            topCalories = topCalories + currentMax;
-
-            elfCount++;
-        }
-        return topCalories;
-    }
-
-    /*
-    Create and populate the elf inventory dictionary where each elf is given an id as a key in the dictionary
-    and each elf's total snack calories are stored as the value. We are given a .txt file with a list of calories in a
-    snack an elf is carrying. Each elf's group of snack calories is separated by an empty line.
-     */
-    public static Map<Integer, Integer> createElfInventory(BufferedReader br) throws IOException {
-
-        // Declare a string variable
-        String str;
-        // Declare an integer sum used to find an elf's total calories
-        int sum = 0;
-        // Declare a 1-indexed elfID
-        int elfID = 1;
-
-        // Create a dictionary inventory
-        Map<Integer, Integer> inventory = new HashMap<Integer, Integer>();
-
-        // Continue while there are still lines to be read
-        while ((str = br.readLine()) != null){
-            // if the next line is a non-empty string, read the line as an integer and add it to the current snack sum
-            if(!str.equals("")){
-                sum = sum + Integer.parseInt(str);
-            }
-            else{
-                // if the current line is a string, then we have just completed a summation of the current elf's snack calories
-                inventory.put(elfID, sum); // add new elf to the inventory dictionary
-                sum = 0; // reset sum to 0 for the next elf
-                elfID++; // create next elf's ID
-            }
-        }
-        return inventory;
-    }
+public class MainTwo {
 
     /*
     Based on the encrypted strategy guide the elf gave you calculate your final score. You earn a score for your selection
@@ -179,26 +112,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-//        // Day 1: File path is passed as parameter
-//        File file = new File("elfCalorieInventory.txt");
-
         // Day 2: File path is passed as parameter
         File file = new File("rockPaperScissorsStrategy.txt");
 
-        // Day 1 & 2: Create a buffered reader
+        // Day 2: Create a buffered reader
         BufferedReader br = new BufferedReader(new FileReader(file));
-
-//        // Day 1 Part: Create the elf inventory with elfID as key and that elf's total snack calories as value
-//        Map<Integer, Integer> inventory = createElfInventory(br);
-//
-//        // Day 1 Part 1: Print the inventory dictionary
-//        System.out.println(inventory);
-//
-//        // Day 1 Part 1: Find and print the maximum calories the elf with the highest snack calories carries
-//        System.out.println(findMaxCals(inventory));
-//
-//        // Day 1 Part 2: Print the total snack calories of the top three elves with the top three snack calorie totals
-//        System.out.println(findTopCals(inventory, 3));
 
 //        // Day 2 Part 1: Calculate your final score based on the provided encrypted strategy
 //        int score = calculateScore(br);
