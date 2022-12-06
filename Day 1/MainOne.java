@@ -1,8 +1,5 @@
-// importing input output classes
 import java.io.*;
-// import the Collections class to use for searching for maximum value in a dictionary
 import java.util.*;
-// import the HashMap and Map classes for dictionary use
 
 public class MainOne {
 

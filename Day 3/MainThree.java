@@ -1,10 +1,6 @@
-// importing input output classes
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-// import the Collections class to use for searching for maximum value in a dictionary
-
-// import the HashMap and Map classes for dictionary use
 
 public class MainThree {
 
