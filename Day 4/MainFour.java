@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class MainFour {
 
+    // count how many elf cleaning assignments are entirely contained within a partner's cleaning assignments
     public static int countAssignmentOverlaps (BufferedReader br) throws Exception {
         String str;
         int assignmentOverlaps = 0;
@@ -26,7 +27,7 @@ public class MainFour {
             eTwoEnd = Integer.parseInt(elfTwo[1]);
 
             // if one of the elves' assignments in a cleaning pair are entirely contained within their partners assignments
-            if ((eOneStart < eTwoStart && eOneEnd > eTwoEnd) || (eOneStart > eTwoStart && eOneEnd < eTwoEnd)) {
+            if ((eOneStart <= eTwoStart && eOneEnd >= eTwoEnd) || (eOneStart >= eTwoStart && eOneEnd <= eTwoEnd)) {
                 assignmentOverlaps++;
             }
         }
@@ -41,9 +42,7 @@ public class MainFour {
         // Day 4: Create a buffered reader
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        // Day 4 Part 1: Create the elf cleaning pairs dictionary
-//        Map<Integer, String[]> elfCleaningPairs = createElfCleaningPairs(br);
-
+        // Day 4 Part 1: Count how many cleaning assignments overlap between cleaning elf partners
         int count = countAssignmentOverlaps(br);
         System.out.println(count);
 
