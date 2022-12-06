@@ -9,7 +9,7 @@ import java.util.Map;
 public class MainFour {
 
     // count how many elf cleaning assignments are entirely contained within a partner's cleaning assignments
-    public static int countAssignmentOverlaps (BufferedReader br) throws Exception {
+    public static int countCompleteAssignmentOverlaps (BufferedReader br) throws Exception {
         String str;
         int assignmentOverlaps = 0;
         String[] cleaningAssignments, elfOne, elfTwo;
@@ -26,12 +26,38 @@ public class MainFour {
             eTwoStart = Integer.parseInt(elfTwo[0]);
             eTwoEnd = Integer.parseInt(elfTwo[1]);
 
-            // if one of the elves' assignments in a cleaning pair are entirely contained within their partners assignments
+            // if one of the elves' assignments in a cleaning pair is entirely contained within their partners assignments
             if ((eOneStart <= eTwoStart && eOneEnd >= eTwoEnd) || (eOneStart >= eTwoStart && eOneEnd <= eTwoEnd)) {
                 assignmentOverlaps++;
             }
         }
 
+        return assignmentOverlaps;
+    }
+
+    // count how many elf cleaning assignments are partially contained within a partner's cleaning assignments
+    public static int countPartialAssignmentOverlaps (BufferedReader br) throws Exception {
+        String str;
+        int assignmentOverlaps = 0;
+        String[] cleaningAssignments, elfOne, elfTwo;
+        int eOneStart, eOneEnd, eTwoStart, eTwoEnd;
+
+        // continue while there are still lines to be read
+        while ((str = br.readLine()) != null) {
+            cleaningAssignments = str.split(",");
+            elfOne = cleaningAssignments[0].split("-");
+            elfTwo = cleaningAssignments[1].split("-");
+
+            eOneStart = Integer.parseInt(elfOne[0]);
+            eOneEnd = Integer.parseInt(elfOne[1]);
+            eTwoStart = Integer.parseInt(elfTwo[0]);
+            eTwoEnd = Integer.parseInt(elfTwo[1]);
+
+            // if one of the elves' assignments in a cleaning pair is partially contained within their partners assignments
+            if (!(eOneEnd < eTwoStart) && !(eTwoEnd < eOneStart)) {
+                assignmentOverlaps++;
+            }
+        }
         return assignmentOverlaps;
     }
 
@@ -42,15 +68,12 @@ public class MainFour {
         // Day 4: Create a buffered reader
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        // Day 4 Part 1: Count how many cleaning assignments overlap between cleaning elf partners
-        int count = countAssignmentOverlaps(br);
-        System.out.println(count);
+        // Day 4 Part 1: Count how many cleaning assignments entirely overlap between cleaning elf partners
+//        int completeAssignmentOverlaps = countCompleteAssignmentOverlaps(br);
+//        System.out.println(completeAssignmentOverlaps);
 
-//        // Day 4 Part 1: Find how many cleaning elf assignment pairs fully contain one of the partner's assignments
-//        int assignmentContainment = findAssignmentContainment(br);
-//        System.out.println(assignmentContainment);
-
-        // Day 4 Part 2:
-//        System.out.println();
+        // Day 4 Part 2: Count how many cleaning assignments partially overlap
+        int partialAssignmentOverlaps = countPartialAssignmentOverlaps(br);
+        System.out.println(partialAssignmentOverlaps);
     }
 }
