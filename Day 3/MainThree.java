@@ -66,7 +66,7 @@ public class MainThree {
         Map<Integer, String[]> elfGroupRucksacks = new HashMap<>();
 
         // continue while there are still lines to be read
-        while ((str = br.readLine()) !=null) {
+        while ((str = br.readLine()) != null) {
             if (i >= 3) {
                 elfGroupRucksacks.put(elfGroupID, rucksacks.clone());
                 elfGroupID++; // set the next group's id
