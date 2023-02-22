@@ -62,12 +62,23 @@ public class MainFive {
         }
         return maneuvers;
     }
-//    public static String maneuverBoxes() {
-//        String topBoxes;
-//
-//
-//        return topBoxes;
-//    }
+    public static List<Character> maneuverBoxes(List<List<Character>> boxStacks, List<List<Integer>> maneuvers) {
+        int i;
+        for (i=0; i < maneuvers.size(); i++){
+            List<Integer> currentMove = maneuvers.get(i);
+        }
+        return findTopBoxes(boxStacks);
+    }
+
+    public static List<Character> findTopBoxes(List<List<Character>> boxStacks) {
+        List<Character> topBoxes = new ArrayList<>();
+
+        int i;
+        for (i=0; i < 9; i++) {
+            topBoxes.add(boxStacks.get(i).get(0));
+        }
+        return topBoxes;
+    }
 
     public static void main(String[] args) throws Exception {
         // Day 5: File path is passed as parameter
@@ -79,8 +90,13 @@ public class MainFive {
         // Day 5 Part 1:
         // create the box stacks
         List<List<Character>> boxStacks = createBoxStacks(br);
+        // isolate the box maneuver instructions
         List<List<Integer>> maneuvers = isolateManeuvers(br);
-        System.out.println(maneuvers);
+        // maneuver the boxes and return the top boxes from each stack
+//        String topBoxes = maneuverBoxes(boxStacks, maneuvers);
+//        System.out.println(topBoxes);
+        System.out.println(findTopBoxes(boxStacks));
+
 
         // Day 5 Part 2:
 //        System.out.println();
