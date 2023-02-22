@@ -2,27 +2,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class MainFive {
 
     // create a list of each box stack
     public static List<List<Character>> createBoxStacks(BufferedReader br) throws Exception {
-        // create the list of stacked boxes
-        List<List<Character>> boxes = new ArrayList<List<Character>>();
-
-        // create the stacked box lists
-        List<Character> stack1 = new ArrayList<>();
-        List<Character> stack2 = new ArrayList<>();
-        List<Character> stack3 = new ArrayList<>();
-        List<Character> stack4 = new ArrayList<>();
-        List<Character> stack5 = new ArrayList<>();
-        List<Character> stack6 = new ArrayList<>();
-        List<Character> stack7 = new ArrayList<>();
-        List<Character> stack8 = new ArrayList<>();
-        List<Character> stack9 = new ArrayList<>();
+        // create the list of the box stacks
+        List<List<Character>> stacks = new ArrayList<>();
+        for (int i=0; i<9; i++){
+            stacks.add(new ArrayList<>());
+        }
 
         String str;
 
@@ -30,35 +20,25 @@ public class MainFive {
         while ((str = br.readLine()) != null && Character.isLetter(str.charAt(1))) {
             // check for any boxes in current row and add them to their box stacks when necessary
             if (Character.isLetter(str.charAt(1)))
-                stack1.add(str.charAt(1));
+                stacks.get(0).add(str.charAt(1));
             if (Character.isLetter(str.charAt(5)))
-                stack2.add(str.charAt(5));
+                stacks.get(1).add(str.charAt(5));
             if (Character.isLetter(str.charAt(9)))
-                stack3.add(str.charAt(9));
+                stacks.get(2).add(str.charAt(9));
             if (Character.isLetter(str.charAt(13)))
-                stack4.add(str.charAt(13));
+                stacks.get(3).add(str.charAt(13));
             if (Character.isLetter(str.charAt(17)))
-                stack5.add(str.charAt(17));
+                stacks.get(4).add(str.charAt(17));
             if (Character.isLetter(str.charAt(21)))
-                stack6.add(str.charAt(21));
+                stacks.get(5).add(str.charAt(21));
             if (Character.isLetter(str.charAt(25)))
-                stack7.add(str.charAt(25));
+                stacks.get(6).add(str.charAt(25));
             if (Character.isLetter(str.charAt(29)))
-                stack8.add(str.charAt(29));
+                stacks.get(7).add(str.charAt(29));
             if (Character.isLetter(str.charAt(33)))
-                stack9.add(str.charAt(33));
+                stacks.get(8).add(str.charAt(33));
         }
-        boxes.add(stack1);
-        boxes.add(stack2);
-        boxes.add(stack3);
-        boxes.add(stack4);
-        boxes.add(stack5);
-        boxes.add(stack6);
-        boxes.add(stack7);
-        boxes.add(stack8);
-        boxes.add(stack9);
-
-        return boxes;
+        return stacks;
     }
 
     public static void main(String[] args) throws Exception {
