@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class MainFive {
@@ -41,6 +40,8 @@ public class MainFive {
         }
         return stacks;
     }
+
+    // create a list of the box maneuvers the crane elf needs to perform
     public static List<List<Integer>> isolateManeuvers(BufferedReader br) throws IOException {
         List<List<Integer>> maneuvers = new ArrayList<>();
 
@@ -63,7 +64,7 @@ public class MainFive {
         return maneuvers;
     }
 
-    // Maneuver the boxes according to the crate rearrangement procedure provided by the elves
+    // Maneuvering one box at a time based on the crate rearrangement procedure
     public static List<Character> maneuverSingleBoxes(List<List<Character>> boxStacks, List<List<Integer>> maneuvers) {
         int i;
         for (i=0; i < maneuvers.size(); i++){
@@ -79,6 +80,7 @@ public class MainFive {
         return findTopBoxes(boxStacks);
     }
 
+    // maneuvering multiple boxes at a time based on the crate rearrangement procedure
     public static List<Character> maneuverMultipleBoxes(List<List<Character>> boxStacks, List<List<Integer>> maneuvers) {
         int i;
         for (i=0; i < maneuvers.size(); i++){
@@ -95,7 +97,8 @@ public class MainFive {
         }
         return findTopBoxes(boxStacks);
     }
-    // Return a list of all the boxes that are the top of their stacks
+
+    // Return a list of all the boxes that are the top of their stack
     public static List<Character> findTopBoxes(List<List<Character>> boxStacks) {
         List<Character> topBoxes = new ArrayList<>();
 
@@ -113,17 +116,18 @@ public class MainFive {
         // Day 5: Create a buffered reader
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        // Day 5 Part 1:
         // create the box stacks
         List<List<Character>> boxStacks = createBoxStacks(br);
+
         // isolate the box maneuver instructions
         List<List<Integer>> maneuvers = isolateManeuvers(br);
-        // maneuver the boxes and return the top boxes from each stack
+
+        // Day 5 Part 1:
 //        List<Character> topBoxes = maneuverSingleBoxes(boxStacks, maneuvers);
-        List<Character> topBoxesTwo = maneuverMultipleBoxes(boxStacks, maneuvers);
-        System.out.println(topBoxesTwo);
+//        System.out.println(topBoxes);
 
         // Day 5 Part 2:
-//        System.out.println();
+        List<Character> topBoxesTwo = maneuverMultipleBoxes(boxStacks, maneuvers);
+        System.out.println(topBoxesTwo);
     }
 }
