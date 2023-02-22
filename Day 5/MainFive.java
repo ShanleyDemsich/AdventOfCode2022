@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -40,6 +41,33 @@ public class MainFive {
         }
         return stacks;
     }
+    public static List<List<Integer>> isolateManeuvers(BufferedReader br) throws IOException {
+        List<List<Integer>> maneuvers = new ArrayList<>();
+
+        String str;
+        int i = 0;
+
+        // continue while there are still lines to be read
+        while ((str = br.readLine()) != null) {
+            // separate the string on each space
+            String[] segments = str.split(" ");
+            // check if this is a maneuver line, if so add the maneuver to the list of maneuver
+            if (segments[0].contains("move")){
+                maneuvers.add(new ArrayList<>());
+                maneuvers.get(i).add(Integer.parseInt(segments[1]));
+                maneuvers.get(i).add(Integer.parseInt(segments[3]));
+                maneuvers.get(i).add(Integer.parseInt(segments[5]));
+                i++;
+            }
+        }
+        return maneuvers;
+    }
+//    public static String maneuverBoxes() {
+//        String topBoxes;
+//
+//
+//        return topBoxes;
+//    }
 
     public static void main(String[] args) throws Exception {
         // Day 5: File path is passed as parameter
@@ -49,7 +77,10 @@ public class MainFive {
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         // Day 5 Part 1:
-        System.out.println(createBoxStacks(br));
+        // create the box stacks
+        List<List<Character>> boxStacks = createBoxStacks(br);
+        List<List<Integer>> maneuvers = isolateManeuvers(br);
+        System.out.println(maneuvers);
 
         // Day 5 Part 2:
 //        System.out.println();
