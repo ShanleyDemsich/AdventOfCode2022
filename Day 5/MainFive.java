@@ -64,7 +64,7 @@ public class MainFive {
     }
 
     // Maneuver the boxes according to the crate rearrangement procedure provided by the elves
-    public static List<Character> maneuverBoxes(List<List<Character>> boxStacks, List<List<Integer>> maneuvers) {
+    public static List<Character> maneuverSingleBoxes(List<List<Character>> boxStacks, List<List<Integer>> maneuvers) {
         int i;
         for (i=0; i < maneuvers.size(); i++){
             int numBoxes = maneuvers.get(i).get(0);
@@ -79,6 +79,22 @@ public class MainFive {
         return findTopBoxes(boxStacks);
     }
 
+    public static List<Character> maneuverMultipleBoxes(List<List<Character>> boxStacks, List<List<Integer>> maneuvers) {
+        int i;
+        for (i=0; i < maneuvers.size(); i++){
+            int numBoxes = maneuvers.get(i).get(0);
+            int from = maneuvers.get(i).get(1) - 1;
+            int to = maneuvers.get(i).get(2) - 1;
+            int placement = 0;
+            while (numBoxes != 0) {
+                boxStacks.get(to).add(placement, (boxStacks.get(from).get(0)));
+                boxStacks.get(from).remove(0);
+                numBoxes--;
+                placement++;
+            }
+        }
+        return findTopBoxes(boxStacks);
+    }
     // Return a list of all the boxes that are the top of their stacks
     public static List<Character> findTopBoxes(List<List<Character>> boxStacks) {
         List<Character> topBoxes = new ArrayList<>();
@@ -103,8 +119,9 @@ public class MainFive {
         // isolate the box maneuver instructions
         List<List<Integer>> maneuvers = isolateManeuvers(br);
         // maneuver the boxes and return the top boxes from each stack
-        List<Character> topBoxes = maneuverBoxes(boxStacks, maneuvers);
-        System.out.println(topBoxes);
+//        List<Character> topBoxes = maneuverSingleBoxes(boxStacks, maneuvers);
+        List<Character> topBoxesTwo = maneuverMultipleBoxes(boxStacks, maneuvers);
+        System.out.println(topBoxesTwo);
 
         // Day 5 Part 2:
 //        System.out.println();
