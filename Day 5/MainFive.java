@@ -62,14 +62,24 @@ public class MainFive {
         }
         return maneuvers;
     }
+
+    // Maneuver the boxes according to the crate rearrangement procedure provided by the elves
     public static List<Character> maneuverBoxes(List<List<Character>> boxStacks, List<List<Integer>> maneuvers) {
         int i;
         for (i=0; i < maneuvers.size(); i++){
-            List<Integer> currentMove = maneuvers.get(i);
+            int numBoxes = maneuvers.get(i).get(0);
+            int from = maneuvers.get(i).get(1) - 1;
+            int to = maneuvers.get(i).get(2) - 1;
+            while (numBoxes != 0) {
+                boxStacks.get(to).add(0, (boxStacks.get(from).get(0)));
+                boxStacks.get(from).remove(0);
+                numBoxes--;
+            }
         }
         return findTopBoxes(boxStacks);
     }
 
+    // Return a list of all the boxes that are the top of their stacks
     public static List<Character> findTopBoxes(List<List<Character>> boxStacks) {
         List<Character> topBoxes = new ArrayList<>();
 
@@ -93,10 +103,8 @@ public class MainFive {
         // isolate the box maneuver instructions
         List<List<Integer>> maneuvers = isolateManeuvers(br);
         // maneuver the boxes and return the top boxes from each stack
-//        String topBoxes = maneuverBoxes(boxStacks, maneuvers);
-//        System.out.println(topBoxes);
-        System.out.println(findTopBoxes(boxStacks));
-
+        List<Character> topBoxes = maneuverBoxes(boxStacks, maneuvers);
+        System.out.println(topBoxes);
 
         // Day 5 Part 2:
 //        System.out.println();
