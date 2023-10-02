@@ -14,22 +14,21 @@ def find_data_marker():
             char = f.read(1)
             if char == "":
                 break
-            print(char)
+
             # increment the characters count
             marker_index += 1
-
             current_char = alpha_dict.get(char)
+
             # if character was seen in any of the previous 3 chars
             if current_char > 0:
                 # reset the dictionary and marker length counter
                 alpha_dict = create_alpha_dict()
-                alpha_dict[char] += 1
-                marker = 1
-            else:
-                # Update dictionary value for char
-                alpha_dict[char] += 1
-                # increment the marker length counter
-                marker += 1
+                marker = 0
+
+            # Update dictionary value for char
+            alpha_dict[char] += 1
+            # increment the marker length counter
+            marker += 1
 
             if marker == 4:
                 return marker_index
