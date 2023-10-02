@@ -1,8 +1,8 @@
 import string
 
 
-def find_data_marker():
-    marker = 0  # goal of 4
+def find_marker(target_length):
+    marker = 0
     marker_index = 0  # Marks end of marker
 
     alpha_dict = create_alpha_dict()
@@ -30,7 +30,7 @@ def find_data_marker():
             # increment the marker length counter
             marker += 1
 
-            if marker == 4:
+            if marker == target_length:
                 return marker_index
 
 
@@ -41,6 +41,7 @@ def create_alpha_dict():
 
 
 # Day 6, part 1:
-print(find_data_marker())
+print(find_marker(4))
 
 # Day 6, part 2:
+print(find_marker(14))
