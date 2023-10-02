@@ -11,12 +11,24 @@ public class MainSix {
 
         String str;
 
-        int count = 0;
+
         int c = 0;
         // continue while there are still characters to be read
         while ((c = br.read()) != -1) {
-            if (alphabet.get(c) == 0){
-                
+            int marker = 0;
+            int marker_characters = 0;
+
+            int current_value = alphabet.get(c);
+            // if we have not seen this character yet in the sequence
+            if (current_value == 0){
+                // increment current character's count
+                current_value += 1;
+                // increment the marker
+                marker += 1;
+            }
+            if (current_value > 0){
+                // increment the total number of characters needed before a marker is found
+                marker_characters += 1;
             }
         }
 
