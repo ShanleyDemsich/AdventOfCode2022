@@ -26,20 +26,33 @@ def count_visible_trees():
     """Counts the total number of visible trees in the tree grid.
     A visible tree is any that can be seen from above, below, to the left
     or to the right of the tree. """
-
+    total_visible_trees = 0
     tree_grid_dict = get_tree_grid()
-    above_row = tree_grid_dict[1]
-    current_row = tree_grid_dict[2]
-    below_row = tree_grid_dict[3]
+    row = 1
+
+    for _ in range(len(tree_grid_dict)):
+        if row+1 == len(tree_grid_dict):
+            break
+        above_row = tree_grid_dict[row]
+        current_row = tree_grid_dict[row+1]
+        below_row = tree_grid_dict[row+2]
+
+        # check each inner tree in the current row
+        for index, tree in enumerate(current_row[1:-2]):
+            if tree_is_visible(tree, above_row[index], below_row[index],
+                               current_row[index-1], current_row[index+1]):
+                total_visible_trees += 1
+        row += 1
+    return total_visible_trees
 
 
-def is_tree_visible(current, above, below, left, right):
+def tree_is_visible(current, above, below, left, right):
     """Verifies if the current tree is taller than, able to be seen, the
     trees left, right, above, or below"""
 
-    return current > above and current > below \
-           and current > left and current > right
+    return current > above or current > below or current > left or current > right
 
 
 # Day 8, part 1
-print(create_tree_grid())
+print(count_visible_trees())
+
