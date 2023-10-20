@@ -1,5 +1,5 @@
 def create_tree_grid():
-    """Turns the .txt tree grid file into a workable dictionary"""
+    """Turns the .txt tree grid file into a 2-D array"""
 
     tree_row = []
     tree_grid = []
@@ -9,8 +9,8 @@ def create_tree_grid():
         for line in f:
             for char in line:
                 # Add the tree heights within a row to a list
-                tree_row.append(char)
-            # Append a tree row to the tree grid dictionary for future lookups
+                tree_row.append(int(char))
+            # Append a tree row to the tree grid 2-d array
             tree_grid.append(tree_row)
             tree_row = []  # reset the tree row for the next row of trees
 
@@ -45,26 +45,39 @@ def count_visible_trees():
     #     row += 1
 
     for row in tree_grid:
-        for col in tree_grid[row]:
-            current_tree_height = tree_grid[row][col]
+        # Count visible trees from left to right
+        total_visible_trees += visible_row_trees(row, row[0])
+        # Count visible trees from right to left
+        total_visible_trees += visible_row_trees(reversed(row), row[-1])
+        # Count visible trees from looking down the grid
 
-            # Check if there is a taller tree to the current tree's left
-            for left_col in range(col - 1, -1, -1):
-
-            # Check if there is a taller tree to the current tree's right
-
-            # Check if there is a taller tree above the current tree
-
-            # Check if there is a taller tree below the current tree
+        # Count visible trees from looking up the grid
 
     return total_visible_trees
 
 
-def tree_is_visible(current_tree, comparison_tree):
+def visible_row_trees(row, max_height):
+    """Count the number of visible trees looking across a row"""
+    visible_trees = 0
+
+    for tree in row[1:-1]:
+        if tree_is_visible(tree, max_height):
+            visible_trees += 1
+            max_height = tree
+
+    return visible_trees
+
+def visible_col_trees(row, max_height):
+    for tree in row[1:-1]:
+
+
+
+
+def tree_is_visible(current_tree_height, comparison_tree_height):
     """Verifies if the current tree is taller than, able to be seen, the
     comparing tree"""
 
-    return current_tree < comparison_tree
+    return current_tree_height > comparison_tree_height
 
 
 # Day 8, part 1
