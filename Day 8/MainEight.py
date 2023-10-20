@@ -1,13 +1,13 @@
 import numpy as np
 
 
-def create_tree_grid():
+def create_tree_grid(file):
     """Turns the .txt tree grid file into a 2-D array"""
     tree_row = []
     tree_grid = []
 
     # read the file line by line, character by character
-    with open("trees.txt", "r") as f:
+    with open(file, "r") as f:
         for line in f:
             for char in line:
                 if char != '\n':
@@ -20,38 +20,46 @@ def create_tree_grid():
     return tree_grid
 
 
-def get_tree_grid():
-    return create_tree_grid()
+def get_tree_grid(file):
+    return create_tree_grid(file)
 
 
-def create_tree_grid_masks(tree_grid, transposed_tree_grid):
-    """Create masks of the visible trees from looking left, rihgt, up
+def create_tree_grid_mask(tree_grid):
+    """Create masks of the visible trees from looking left, right, up
     or down a matrix of tree heights"""
+    tree_grid = np.array(tree_grid)
     left_to_right_tree_mask = []
     right_to_left_tree_mask = []
     top_to_bottom_tree_mask = []
     bottom_to_top_tree_mask = []
 
     for row in tree_grid:
-        # Count visible trees from left to right
-        left_to_right_tree_mask.append(visible_row_trees(row, row[0]))
-        # Count visible trees from right to left
-        right_to_left_tree_mask.append(
-            visible_row_trees(list(reversed(row)), row[-1]))
+        # Label visible trees from left to right
+        left_to_right_tree_mask.append(visible_row_trees(row))
 
-    for row in transposed_tree_grid:
-        # Count visible trees from looking down the grid
-        top_to_bottom_tree_mask.append(visible_row_trees(row, row[0]))
-        # Count visible trees from looking up the grid
-        bottom_to_top_tree_mask.append(
-            visible_row_trees(list(reversed(row)), row[-1]))
+    # rotate the tree grid 90 degrees clockwise
+    tree_grid = np.rot90(tree_grid)
+
+    for row in tree_grid:
+        # Label visible trees from bottom to top
+        bottom_to_top_tree_mask.append(visible_row_trees(row))
+
+    # rotate the tree grid 90 degrees clockwise
+    tree_grid = np.rot90(tree_grid)
+
+    for row in tree_grid:
+        # Label visible trees from right to left
+        right_to_left_tree_mask.append(visible_row_trees(row))
+
+    # rotate the tree grid 90 degrees clockwise
+    tree_grid = np.rot90(tree_grid)
+
+    for row in tree_grid:
+        # Label visible trees from top to bottom
+        top_to_bottom_tree_mask.append(visible_row_trees(row))
 
     return left_to_right_tree_mask, right_to_left_tree_mask, \
            top_to_bottom_tree_mask, bottom_to_top_tree_mask
-
-
-def get_tree_grid_masks(tree_grid, transposed_tree_grid):
-    return create_tree_grid_masks(tree_grid, transposed_tree_grid)
 
 
 def combine_tree_grid_masks(left_right_mask, right_left_mask, top_bottom_mask,
@@ -63,24 +71,17 @@ def combine_tree_grid_masks(left_right_mask, right_left_mask, top_bottom_mask,
     top_bottom_mask = np.array(top_bottom_mask)
     bottom_top_mask = np.array(bottom_top_mask)
 
-    combined_matrix = np.zeros((left_right_mask.shape[0], left_right_mask.shape[1]), dtype=bool)
-
-    # Iterate over the rows and columns of the new matrix
-    for i in range(combined_matrix.shape[0]):
-        for j in range(combined_matrix.shape[1]):
-            # Check if corresponding elements in the matrices are equal to 1
-            if left_right_mask[i, j] or right_left_mask[i, j] or top_bottom_mask[i, j] or bottom_top_mask[i, j]:
-                # Set the corresponding element in the new matrix
-                combined_matrix[i, j] = True
+    combined_matrix = left_right_mask | right_left_mask | top_bottom_mask | bottom_top_mask
 
     return combined_matrix
 
 
-def visible_row_trees(row, max_height):
+def visible_row_trees(row):
     """Create a mask of visible trees looking across a row"""
-    mask_row = []
+    mask_row = [True]
+    max_height = row[0]
 
-    for tree in row[1:-1]:
+    for tree in row[1:]:
         if tree_is_visible(tree, max_height):
             # Set mask to true for visible tree
             mask_row.append(True)
@@ -97,32 +98,22 @@ def tree_is_visible(current_tree_height, comparison_tree_height):
     return current_tree_height > comparison_tree_height
 
 
-def count_visible_trees():
+def count_visible_trees(file):
     """Counts the total number of visible trees in the tree grid.
     A visible tree is any that can be seen from the outside of the tree grid."""
     total_visible_trees = 0
-    tree_grid = get_tree_grid()
-    transposed_tree_grid = [[tree_grid[j][i] for j in range(len(tree_grid))] for
-                            i in range(len(tree_grid[0]))]
-
-    # All outer trees of the perimeter are visible
-    total_visible_trees += 4 * len(tree_grid)
+    tree_grid = get_tree_grid(file)
 
     # Retrieve the tree grid masks for each perspective of the grid
-    left_right_mask, right_left_mask, top_bottom_mask, bottom_top_mask = get_tree_grid_masks(tree_grid, transposed_tree_grid)
+    left_right_mask, right_left_mask, top_bottom_mask, bottom_top_mask = create_tree_grid_mask(tree_grid)
 
-    # Combine the matrices into one Boolean matrix
-    combined_matrix = combine_tree_grid_masks(left_right_mask, right_left_mask,
-                                              top_bottom_mask, bottom_top_mask)
+    # Combine the matrices into one Boolean matrix and count total visible trees
+    combined_matrix_sum = np.sum(combine_tree_grid_masks(left_right_mask, right_left_mask, top_bottom_mask, bottom_top_mask))
 
-    # Count number of visible trees from tree mask matrix
-    for row in combined_matrix:
-        for visible_tree in row:
-            if visible_tree:
-                total_visible_trees += 1
+    total_visible_trees += combined_matrix_sum
 
     return total_visible_trees
 
 
 # Day 8, part 1
-print(count_visible_trees())
+print(count_visible_trees("trees.txt"))
