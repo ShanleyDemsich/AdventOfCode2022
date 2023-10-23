@@ -129,10 +129,6 @@ def calculate_viewing_distances(tree_grid):
     view (must be equal height or greater to current tree)."""
     tree_grid = np.array(tree_grid)
     viewing_distances = []
-    left_view = 0
-    right_view = 0
-    top_view = 0
-    bottom_view = 0
 
     for row_index, row in enumerate(tree_grid):
         row_viewing_distances = []
@@ -140,55 +136,82 @@ def calculate_viewing_distances(tree_grid):
             current_row_index = row_index
             current_col_index = col_index
 
-            while col_index != 0:
-                # Count how many trees can be viewed to the left
-                if tree_grid[(row_index, col_index)] >= tree:
-                    bottom_view += 1
-                    break  # Reached a non-visible tree
-                left_view += 1
-                col_index -= 1
+            # Calculate visible trees to the left of current tree
+            left_view = calculate_left_viewing_distance(tree_grid, current_row_index, current_col_index - 1, tree)
 
-            # Reset col_index to our current tree's col index
-            col_index = current_col_index
-            while col_index != len(tree_grid):
-                # Count how many trees can be viewed to the right
-                if tree_grid[(row_index, col_index)] >= tree:
-                    bottom_view += 1
-                    break  # Reached a non-visible tree
-                right_view += 1
-                col_index += 1
+            # Calculate visible trees to the right of current tree
+            right_view = calculate_right_viewing_distance(tree_grid, current_row_index, current_col_index + 1, tree)
 
-            while row_index != 0:
-                # Count how many trees can be viewed from above
-                if tree_grid[(row_index, col_index)] >= tree:
-                    bottom_view += 1
-                    break  # Reached a non-visible tree
-                top_view += 1
-                row_index -= 1
+            # Calculate visible trees from above
+            top_view = calculate_top_viewing_distance(tree_grid, current_row_index - 1, current_col_index, tree)
 
-            # Reset row_index to our current tree's col index
-            row_index = current_row_index
-            while row_index != len(tree_grid):
-                # Count how many trees can be viewed from below
-                if tree_grid[(row_index, col_index)] >= tree:
-                    bottom_view += 1
-                    break  # Reached a non-visible tree
-                bottom_view += 1
-                row_index += 1
+            # Calculate visible trees below
+            bottom_view = calculate_bottom_viewing_distance(tree_grid, current_row_index + 1, current_col_index, tree)
 
             # Only multiply non-zero values
             viewing_distance = non_zero_multiplication([left_view, right_view, top_view, bottom_view])
             row_viewing_distances.append(viewing_distance)
 
-            # Reset view counters
-            left_view = 0
-            right_view = 0
-            top_view = 0
-            bottom_view = 0
-
         viewing_distances.append(row_viewing_distances)
 
     return np.array(viewing_distances)
+
+
+def calculate_left_viewing_distance(tree_grid, row_index, col_index, tree):
+    """Count how many trees can be viewed to the left."""
+    left_viewing_distance = 0
+
+    while col_index >= 0:
+        comp = tree_grid[row_index, col_index]
+        if comp >= tree:
+            left_viewing_distance += 1
+            break  # Reached last visible tree in this direction
+        left_viewing_distance += 1
+        col_index -= 1
+
+    return left_viewing_distance
+
+
+def calculate_right_viewing_distance(tree_grid, row_index, col_index, tree):
+    """Count how many trees can be viewed to the right."""
+    right_viewing_distance = 0
+
+    while col_index < len(tree_grid):
+        if tree_grid[row_index, col_index] >= tree:
+            right_viewing_distance += 1
+            break  # Reached last visible tree in this direction
+        right_viewing_distance += 1
+        col_index += 1
+
+    return right_viewing_distance
+
+
+def calculate_top_viewing_distance(tree_grid, row_index, col_index, tree):
+    """Count how many trees can be viewed above the tree."""
+    top_viewing_distance = 0
+
+    while row_index >= 0:
+        if tree_grid[row_index, col_index] >= tree:
+            top_viewing_distance += 1
+            break  # Reached last visible tree in this direction
+        top_viewing_distance += 1
+        row_index -= 1
+
+    return top_viewing_distance
+
+
+def calculate_bottom_viewing_distance(tree_grid, row_index, col_index, tree):
+    """Count how many trees can be viewed below the tree."""
+    bottom_viewing_distance = 0
+
+    while row_index < len(tree_grid):
+        if tree_grid[row_index, col_index] >= tree:
+            bottom_viewing_distance += 1
+            break  # Reached last visible tree in this direction
+        bottom_viewing_distance += 1
+        row_index += 1
+
+    return bottom_viewing_distance
 
 
 def non_zero_multiplication(integers):
@@ -212,8 +235,8 @@ def find_best_viewing_distance(file):
 
 
 # Day 8, part 1
-print(count_visible_trees("trees.txt"))
+# print(count_visible_trees("trees.txt"))
 
 
 # Day 8, part 2
-# print(find_best_viewing_distance("trees.txt"))
+print(find_best_viewing_distance("trees.txt"))

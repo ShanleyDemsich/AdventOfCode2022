@@ -122,6 +122,63 @@ class MyTestCase(unittest.TestCase):
 
     ############ Part 2 Tests ##################
 
+    def test_calculate_left_viewing_distance(self):
+        tree_grid = create_tree_grid("testTrees.txt")
+        tree_grid = np.array(tree_grid)
+        row_index = 2
+        col_index = 2
+        tree = 4
+
+        actual = calculate_left_viewing_distance(tree_grid, row_index, col_index - 1, tree)
+
+        expected = 2
+
+        self.assertEqual(expected, actual)
+
+    def test_calculate_right_viewing_distance(self):
+        tree_grid = create_tree_grid("testTrees.txt")
+        tree_grid = np.array(tree_grid)
+        row_index = 2
+        col_index = 2
+        tree = 4
+
+        actual = calculate_right_viewing_distance(tree_grid, row_index,
+                                                 col_index + 1, tree)
+
+        expected = 1
+
+        self.assertEqual(expected, actual)
+
+    def test_calculate_top_viewing_distance(self):
+        tree_grid = create_tree_grid("testTrees.txt")
+        tree_grid = np.array(tree_grid)
+        row_index = 2
+        col_index = 2
+        tree = 4
+
+        actual = calculate_top_viewing_distance(tree_grid, row_index - 1,
+                                                 col_index, tree)
+
+        expected = 2
+
+        self.assertEqual(expected, actual)
+
+    def test_calculate_bottom_viewing_distance(self):
+        tree_grid = create_tree_grid("testTrees.txt")
+        tree_grid = np.array(tree_grid)
+        row_index = 2
+        col_index = 2
+        tree = 4
+
+        actual = calculate_bottom_viewing_distance(tree_grid, row_index + 1,
+                                                col_index, tree)
+
+        expected = 1
+
+        self.assertEqual(expected, actual)
+
+
+
     def test_calculate_viewing_distances(self):
         tree_grid = create_tree_grid("testTrees.txt")
 
