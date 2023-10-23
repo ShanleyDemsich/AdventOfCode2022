@@ -22,21 +22,21 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_combine_tree_grid_masks(self):
-        mask_1 = [[True, False, True, True],
+        mask_1 = np.array([[True, False, True, True],
                   [True, True, False, False],
-                  [True, False, False, False]]
+                  [True, False, False, False]])
 
-        mask_2 = [[True, False, True, True],
+        mask_2 = np.array([[True, False, True, True],
                   [False, False, False, True],
-                  [True, False, False, False]]
+                  [True, False, False, False]])
 
-        mask_3 = [[True, False, True, True],
+        mask_3 = np.array([[True, False, True, True],
                   [True, True, False, False],
-                  [False, True, True, False]]
+                  [False, True, True, False]])
 
-        mask_4 = [[True, False, True, True],
+        mask_4 = np.array([[True, False, True, True],
                   [True, True, False, False],
-                  [False, True, True, False]]
+                  [False, True, True, False]])
 
         actual = combine_tree_grid_masks(mask_1, mask_2, mask_3, mask_4)
         expected = np.array([[True, False, True, True],
@@ -75,27 +75,52 @@ class MyTestCase(unittest.TestCase):
         #               [0, 6, 2, 8]]
 
         # Rolled counter-clockwise
-        expected_1 = [[True, True, True, True],
+        # expected_1 = [[True, True, True, True],
+        #               [True, False, True, False],
+        #               [True, False, False, True],
+        #               [True, False, False, False]]
+        # expected_2 = [[True, False, False, False],
+        #               [True, True, True, False],
+        #               [True, False, False, True],
+        #               [True, True, True, False]]
+        # expected_3 = [[True, False, True, False],
+        #               [True, False, False, False],
+        #               [True, True, False, False],
+        #               [True, False, False, False]]
+        # expected_4 = [[True, True, False, False],
+        #               [True, False, False, False],
+        #               [True, True, False, False],
+        #               [True, True, False, True]]
+
+        expected_1 = np.array([[True, True, True, True],
                       [True, False, True, False],
                       [True, False, False, True],
-                      [True, False, False, False]]
-        expected_2 = [[True, False, False, False],
-                      [True, True, True, False],
-                      [True, False, False, True],
-                      [True, True, True, False]]
-        expected_3 = [[True, False, True, False],
-                      [True, False, False, False],
-                      [True, True, False, False],
-                      [True, False, False, False]]
-        expected_4 = [[True, True, False, False],
-                      [True, False, False, False],
-                      [True, True, False, False],
-                      [True, True, False, True]]
+                      [True, False, False, False]])
+        expected_2 = np.array([[True, True, True, True],
+                      [True, False, True, False],
+                      [True, False, True, False],
+                      [False, True, False, False]])
+        expected_3 = np.array([[False, False, False, True],
+                      [False, False, True, True],
+                      [False, False, False, True],
+                      [False, True, False, True]])
+        expected_4 = np.array([[False, False, False, True],
+                      [False, False, False, False],
+                      [True, False, True, True],
+                      [True, True, True, True]])
 
-        self.assertEqual(expected_1, actual_1)
-        self.assertEqual(expected_2, actual_2)
-        self.assertEqual(expected_3, actual_3)
-        self.assertEqual(expected_4, actual_4)
+        self.assertTrue(np.array_equal(expected_1, actual_1))
+        self.assertTrue(np.array_equal(expected_2, actual_2))
+        self.assertTrue(np.array_equal(expected_3, actual_3))
+        self.assertTrue(np.array_equal(expected_4, actual_4))
+
+    def test_count_visible_trees(self):
+        # tree_grid = create_tree_grid("testTrees.txt")
+
+        visible_trees = count_visible_trees("testTrees.txt")
+        expected = 14
+
+        self.assertEqual(expected, visible_trees)
 
 
 if __name__ == '__main__':
