@@ -176,7 +176,8 @@ def calculate_viewing_distances(tree_grid):
                 bottom_view += 1
                 row_index += 1
 
-            viewing_distance = left_view * right_view * top_view * bottom_view
+            # Only multiply non-zero values
+            viewing_distance = non_zero_multiplication([left_view, right_view, top_view, bottom_view])
             row_viewing_distances.append(viewing_distance)
 
             # Reset view counters
@@ -188,6 +189,15 @@ def calculate_viewing_distances(tree_grid):
         viewing_distances.append(row_viewing_distances)
 
     return np.array(viewing_distances)
+
+
+def non_zero_multiplication(integers):
+    """Given a list of integers only multiply non-zero integers together."""
+    product = 1
+    for integer in integers:
+        if integer != 0:
+            product *= integer
+    return product
 
 
 def find_best_viewing_distance(file):
@@ -206,4 +216,4 @@ print(count_visible_trees("trees.txt"))
 
 
 # Day 8, part 2
-print(find_best_viewing_distance("trees.txt"))
+# print(find_best_viewing_distance("trees.txt"))
