@@ -125,11 +125,19 @@ class MyTestCase(unittest.TestCase):
     def test_calculate_viewing_distances(self):
         tree_grid = create_tree_grid("testTrees.txt")
 
+        actual = calculate_viewing_distances(tree_grid)
+
+        expected = np.array([[1, 1, 2, 9],
+                             [1, 1, 2, 1],
+                             [6, 1, 4, 6],
+                             [1, 6, 1, 1]])
+
+        self.assertTrue(np.array_equal(expected, actual))
 
     def test_find_best_viewing_distance(self):
         actual = find_best_viewing_distance("testTrees.txt")
 
-        expected = 
+        expected = 9
 
         self.assertEqual(expected, actual)
 
