@@ -177,8 +177,6 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-
-
     def test_calculate_viewing_distances(self):
         tree_grid = create_tree_grid("testTrees.txt")
 
