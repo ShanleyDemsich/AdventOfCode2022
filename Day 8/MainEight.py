@@ -122,5 +122,88 @@ def count_visible_trees(file):
     return total_visible_trees
 
 
+def calculate_viewing_distances(tree_grid):
+    """Calculate each tree's viewing distance, how many trees outward in each
+    direction it can see multiplied together. Visible trees are up to and
+    including the next most tree that hides trees beyond the current tree's
+    view (must be equal height or greater to current tree)."""
+    tree_grid = np.array(tree_grid)
+    viewing_distances = []
+    left_view = 0
+    right_view = 0
+    top_view = 0
+    bottom_view = 0
+
+    for row_index, row in enumerate(tree_grid):
+        row_viewing_distances = []
+        for col_index, tree in enumerate(row):
+            current_row_index = row_index
+            current_col_index = col_index
+
+            while col_index != 0:
+                # Count how many trees can be viewed to the left
+                if tree_grid[(row_index, col_index)] >= tree:
+                    bottom_view += 1
+                    break  # Reached a non-visible tree
+                left_view += 1
+                col_index -= 1
+
+            # Reset col_index to our current tree's col index
+            col_index = current_col_index
+            while col_index != len(tree_grid):
+                # Count how many trees can be viewed to the right
+                if tree_grid[(row_index, col_index)] >= tree:
+                    bottom_view += 1
+                    break  # Reached a non-visible tree
+                right_view += 1
+                col_index += 1
+
+            while row_index != 0:
+                # Count how many trees can be viewed from above
+                if tree_grid[(row_index, col_index)] >= tree:
+                    bottom_view += 1
+                    break  # Reached a non-visible tree
+                top_view += 1
+                row_index -= 1
+
+            # Reset row_index to our current tree's col index
+            row_index = current_row_index
+            while row_index != len(tree_grid):
+                # Count how many trees can be viewed from below
+                if tree_grid[(row_index, col_index)] >= tree:
+                    bottom_view += 1
+                    break  # Reached a non-visible tree
+                bottom_view += 1
+                row_index += 1
+
+            viewing_distance = left_view * right_view * top_view * bottom_view
+            row_viewing_distances.append(viewing_distance)
+
+            # Reset view counters
+            left_view = 0
+            right_view = 0
+            top_view = 0
+            bottom_view = 0
+
+        viewing_distances.append(row_viewing_distances)
+
+    return np.array(viewing_distances)
+
+
+def find_best_viewing_distance(file):
+    """Find the greatest viewing distance in the tree grid."""
+    tree_grid = get_tree_grid(file)
+
+    viewing_distances = calculate_viewing_distances(tree_grid)
+
+    best_viewing_distance = np.amax(viewing_distances)
+
+    return best_viewing_distance
+
+
 # Day 8, part 1
 print(count_visible_trees("trees.txt"))
+
+
+# Day 8, part 2
+print(find_best_viewing_distance("trees.txt"))

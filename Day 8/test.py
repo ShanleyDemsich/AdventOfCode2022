@@ -23,20 +23,20 @@ class MyTestCase(unittest.TestCase):
 
     def test_combine_tree_grid_masks(self):
         mask_1 = np.array([[True, False, True, True],
-                  [True, True, False, False],
-                  [True, False, False, False]])
+                           [True, True, False, False],
+                           [True, False, False, False]])
 
         mask_2 = np.array([[True, False, True, True],
-                  [False, False, False, True],
-                  [True, False, False, False]])
+                           [False, False, False, True],
+                           [True, False, False, False]])
 
         mask_3 = np.array([[True, False, True, True],
-                  [True, True, False, False],
-                  [False, True, True, False]])
+                           [True, True, False, False],
+                           [False, True, True, False]])
 
         mask_4 = np.array([[True, False, True, True],
-                  [True, True, False, False],
-                  [False, True, True, False]])
+                           [True, True, False, False],
+                           [False, True, True, False]])
 
         actual = combine_tree_grid_masks(mask_1, mask_2, mask_3, mask_4)
         expected = np.array([[True, False, True, True],
@@ -93,21 +93,21 @@ class MyTestCase(unittest.TestCase):
         #               [True, True, False, True]]
 
         expected_1 = np.array([[True, True, True, True],
-                      [True, False, True, False],
-                      [True, False, False, True],
-                      [True, False, False, False]])
+                               [True, False, True, False],
+                               [True, False, False, True],
+                               [True, False, False, False]])
         expected_2 = np.array([[True, True, True, True],
-                      [True, False, True, False],
-                      [True, False, True, False],
-                      [False, True, False, False]])
+                               [True, False, True, False],
+                               [True, False, True, False],
+                               [False, True, False, False]])
         expected_3 = np.array([[False, False, False, True],
-                      [False, False, True, True],
-                      [False, False, False, True],
-                      [False, True, False, True]])
+                               [False, False, True, True],
+                               [False, False, False, True],
+                               [False, True, False, True]])
         expected_4 = np.array([[False, False, False, True],
-                      [False, False, False, False],
-                      [True, False, True, True],
-                      [True, True, True, True]])
+                               [False, False, False, False],
+                               [True, False, True, True],
+                               [True, True, True, True]])
 
         self.assertTrue(np.array_equal(expected_1, actual_1))
         self.assertTrue(np.array_equal(expected_2, actual_2))
@@ -115,12 +115,23 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(np.array_equal(expected_4, actual_4))
 
     def test_count_visible_trees(self):
-        # tree_grid = create_tree_grid("testTrees.txt")
-
         visible_trees = count_visible_trees("testTrees.txt")
         expected = 14
 
         self.assertEqual(expected, visible_trees)
+
+    ############ Part 2 Tests ##################
+
+    def test_calculate_viewing_distances(self):
+        tree_grid = create_tree_grid("testTrees.txt")
+
+
+    def test_find_best_viewing_distance(self):
+        actual = find_best_viewing_distance("testTrees.txt")
+
+        expected = 
+
+        self.assertEqual(expected, actual)
 
 
 if __name__ == '__main__':
