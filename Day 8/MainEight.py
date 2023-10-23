@@ -28,39 +28,51 @@ def create_tree_grid_mask(tree_grid):
     """Create masks of the visible trees from looking left, right, up
     or down a matrix of tree heights"""
     tree_grid = np.array(tree_grid)
-    left_to_right_tree_mask = []
-    right_to_left_tree_mask = []
-    top_to_bottom_tree_mask = []
-    bottom_to_top_tree_mask = []
+    # left_to_right_tree_mask = []
+    # right_to_left_tree_mask = []
+    # top_to_bottom_tree_mask = []
+    # bottom_to_top_tree_mask = []
+
+    mask_1 = []
+    mask_2 = []
+    mask_3 = []
+    mask_4 = []
 
     for row in tree_grid:
         # Label visible trees from left to right
-        left_to_right_tree_mask.append(visible_row_trees(row))
+        # left_to_right_tree_mask.append(visible_row_trees(row))
+        mask_1.append(visible_row_trees(row))
+
 
     # rotate the tree grid 90 degrees clockwise
     tree_grid = np.rot90(tree_grid)
 
     for row in tree_grid:
         # Label visible trees from bottom to top
-        bottom_to_top_tree_mask.append(visible_row_trees(row))
+        # bottom_to_top_tree_mask.append(visible_row_trees(row))
+        mask_2.append(visible_row_trees(row))
+
 
     # rotate the tree grid 90 degrees clockwise
     tree_grid = np.rot90(tree_grid)
 
     for row in tree_grid:
         # Label visible trees from right to left
-        right_to_left_tree_mask.append(visible_row_trees(row))
+        # right_to_left_tree_mask.append(visible_row_trees(row))
+        mask_3.append(visible_row_trees(row))
+
 
     # rotate the tree grid 90 degrees clockwise
     tree_grid = np.rot90(tree_grid)
 
     for row in tree_grid:
         # Label visible trees from top to bottom
-        top_to_bottom_tree_mask.append(visible_row_trees(row))
+        # top_to_bottom_tree_mask.append(visible_row_trees(row))
+        mask_4.append(visible_row_trees(row))
 
-    return left_to_right_tree_mask, right_to_left_tree_mask, \
-           top_to_bottom_tree_mask, bottom_to_top_tree_mask
 
+    # return left_to_right_tree_mask, bottom_to_top_tree_mask, right_to_left_tree_mask, top_to_bottom_tree_mask
+    return mask_1, mask_2, mask_3, mask_4
 
 def combine_tree_grid_masks(left_right_mask, right_left_mask, top_bottom_mask,
                             bottom_top_mask):
