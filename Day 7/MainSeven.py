@@ -23,8 +23,9 @@ def get_command(line):
         return line[5]
 
 
-def create_directory_dictionary(lines):
-    directory_dictionary = dict()
+def create_directory_tree(lines):
+    """Recursive function to create a directory tree"""
+    directory_tree = dict()
 
     directory_level = 0
 
